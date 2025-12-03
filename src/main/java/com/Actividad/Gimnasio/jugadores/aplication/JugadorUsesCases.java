@@ -26,4 +26,7 @@ public class JugadorUsesCases {
     public void update(int id, Jugador jugador){
         this.jugadorRepository.update(id, jugador);
     }
+    public void reset(){
+        this.jugadorRepository.reset();
+    };
 }

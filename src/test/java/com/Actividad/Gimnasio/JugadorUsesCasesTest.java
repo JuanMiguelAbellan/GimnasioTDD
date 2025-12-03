@@ -2,7 +2,8 @@ package com.Actividad.Gimnasio;
 
 import com.Actividad.Gimnasio.jugadores.aplication.JugadorUsesCases;
 import com.Actividad.Gimnasio.jugadores.domain.Jugador;
-import com.Actividad.Gimnasio.jugadores.infrastructure.JugadorRepositorySQL;
+import com.Actividad.Gimnasio.jugadores.infrastructure.db.JugadorRepositorySQL;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -31,5 +32,10 @@ public class JugadorUsesCasesTest {
         this.jugadorUsesCases.add(jugador);
         List<Jugador> list = this.jugadorUsesCases.list();
         assertEquals(1, list.size());
+    }
+
+    @AfterEach
+    void reset(){
+        jugadorUsesCases.reset();
     }
 }

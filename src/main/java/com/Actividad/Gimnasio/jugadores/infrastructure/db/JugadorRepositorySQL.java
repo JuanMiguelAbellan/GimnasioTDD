@@ -1,4 +1,4 @@
-package com.Actividad.Gimnasio.jugadores.infrastructure;
+package com.Actividad.Gimnasio.jugadores.infrastructure.db;
 
 import com.Actividad.Gimnasio.context.MySQLDBConnector;
 import com.Actividad.Gimnasio.jugadores.domain.Jugador;
@@ -23,7 +23,7 @@ public class JugadorRepositorySQL implements JugadorRepository {
                 Jugador jugador = new Jugador();
                 jugador.setDni(rs.getString("dni"))
                         .setNombre(rs.getString("nombre"))
-                        .setApellidos(rs.getString("apellidos"))
+                        .setApellidos(rs.getString("apelldios"))
                         .setFechaNacimiento(rs.getString("fecha_nacimiento"))
                         .setResistencia(rs.getInt("resistencia"))
                         .setVelocidad(rs.getInt("velocidad"))
@@ -43,7 +43,7 @@ public class JugadorRepositorySQL implements JugadorRepository {
 
     @Override
     public void add(Jugador jugador) {
-        String query = "insert into jugadores(dni, nombre, apellidos, fecha_nacimiento, resistencia, velocidad, recuperacion) values(?, ?, ?, ?, ?, ?, ?)";
+        String query = "insert into jugador(dni, nombre, apelldios, fecha_nacimiento, resistencia, velocidad, recuperacion) values(?, ?, ?, ?, ?, ?, ?)";
 
         try {
             PreparedStatement statement = MySQLDBConnector.getInstance().prepareStatement(query);
@@ -54,8 +54,10 @@ public class JugadorRepositorySQL implements JugadorRepository {
             statement.setInt(5, jugador.getResistencia());
             statement.setInt(6, jugador.getVelocidad());
             statement.setInt(7, jugador.getRecuperacion());
-            } catch (SQLException ex) {
-            throw new RuntimeException(ex);
+            statement.executeUpdate();
+        }
+        catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -66,6 +68,15 @@ public class JugadorRepositorySQL implements JugadorRepository {
 
     @Override
     public void reset() {
+        String query = "delete from jugador";
+
+
+        try {
+            PreparedStatement statement = MySQLDBConnector.getInstance().prepareStatement(query);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
 
     }
 }
