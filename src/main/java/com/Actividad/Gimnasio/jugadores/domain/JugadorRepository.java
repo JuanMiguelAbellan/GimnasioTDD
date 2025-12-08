@@ -9,4 +9,5 @@ public interface JugadorRepository {
     public void add(Jugador jugador);
     public void update(int id, Jugador jugador);
     public void reset();
+    public void remove(int id);
 }

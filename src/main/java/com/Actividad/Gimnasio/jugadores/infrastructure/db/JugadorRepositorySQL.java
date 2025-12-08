@@ -21,13 +21,13 @@ public class JugadorRepositorySQL implements JugadorRepository {
             ResultSet rs = statement.executeQuery();
             while (rs.next()){
                 Jugador jugador = new Jugador();
-                jugador.setDni(rs.getString("dni"))
-                        .setNombre(rs.getString("nombre"))
-                        .setApellidos(rs.getString("apelldios"))
-                        .setFechaNacimiento(rs.getString("fecha_nacimiento"))
-                        .setResistencia(rs.getInt("resistencia"))
-                        .setVelocidad(rs.getInt("velocidad"))
-                        .setRecuperacion(rs.getInt("recuperacion"));
+                jugador.dni(rs.getString("dni"))
+                        .nombre(rs.getString("nombre"))
+                        .apellidos(rs.getString("apelldios"))
+                        .fechaNacimiento(rs.getString("fecha_nacimiento"))
+                        .resistencia(rs.getInt("resistencia"))
+                        .velocidad(rs.getInt("velocidad"))
+                        .recuperacion(rs.getInt("recuperacion"));
                 jugadores.add(jugador);
             }
         } catch (SQLException e) {
@@ -38,7 +38,26 @@ public class JugadorRepositorySQL implements JugadorRepository {
 
     @Override
     public Jugador getJugador(int id) {
-        return null;
+        Jugador jugador = new Jugador();
+        String query = "select * from jugador where id = ?";
+
+        try {
+            PreparedStatement statement = MySQLDBConnector.getInstance().prepareStatement(query);
+            statement.setInt(1, id);
+            ResultSet rs = statement.executeQuery();
+            while (rs.next()){
+                jugador.dni(rs.getString("dni"))
+                        .nombre(rs.getString("nombre"))
+                        .apellidos(rs.getString("apelldios"))
+                        .fechaNacimiento(rs.getString("fecha_nacimiento"))
+                        .resistencia(rs.getInt("resistencia"))
+                        .velocidad(rs.getInt("velocidad"))
+                        .recuperacion(rs.getInt("recuperacion"));
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return jugador;
     }
 
     @Override
@@ -63,13 +82,52 @@ public class JugadorRepositorySQL implements JugadorRepository {
 
     @Override
     public void update(int id, Jugador jugador) {
+        StringBuilder query = new StringBuilder("update jugador set id = " + id);
+        List<Object> params = new ArrayList<>();
+        if (jugador.getDni() !=null && !jugador.getDni().isEmpty()){
+            query.append(", dni = ?");
+            params.add(jugador.getDni());
+        }
+        if (jugador.getNombre() !=null && !jugador.getNombre().isEmpty()){
+            query.append(", nombre = ?");
+            params.add(jugador.getNombre());
+        }
+        if (jugador.getApellidos() !=null && !jugador.getApellidos().isEmpty()){
+            query.append(", apelldios = ?");
+            params.add(jugador.getApellidos());
+        }
+        if (jugador.getFechaNacimiento() !=null && !jugador.getFechaNacimiento().isEmpty()){
+            query.append(", fecha_nacimiento = ?");
+            params.add(jugador.getFechaNacimiento());
+        }
+        if ((Integer)jugador.getRecuperacion() !=null){
+            query.append(", recuperacion = ?");
+            params.add(jugador.getRecuperacion());
+        }
+        if ((Integer)jugador.getResistencia() !=null){
+            query.append(", resistencia = ?");
+            params.add(jugador.getResistencia());
+        }
+        if ((Integer)jugador.getVelocidad() !=null){
+            query.append(", velocidad = ?");
+            params.add(jugador.getVelocidad());
+        }
 
+        try{
+            query.append(" where id = " + id);
+            PreparedStatement statement = MySQLDBConnector.getInstance().prepareStatement(query.toString());
+            for(int i =0; i < params.size();i++){
+                statement.setObject(i+1, params.get(i));
+            }
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public void reset() {
         String query = "delete from jugador";
-
 
         try {
             PreparedStatement statement = MySQLDBConnector.getInstance().prepareStatement(query);
@@ -78,5 +136,18 @@ public class JugadorRepositorySQL implements JugadorRepository {
             throw new RuntimeException(e);
         }
 
+    }
+
+    @Override
+    public void remove(int id) {
+        String query = "delete from jugador where id = ?";
+
+        try {
+            PreparedStatement statement = MySQLDBConnector.getInstance().prepareStatement(query);
+            statement.setInt(1, id);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

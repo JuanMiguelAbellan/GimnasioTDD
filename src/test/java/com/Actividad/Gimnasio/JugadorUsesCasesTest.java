@@ -22,13 +22,13 @@ public class JugadorUsesCasesTest {
     @Test
     void saveAndList(){
         Jugador jugador = new Jugador();
-        jugador.setDni("11111111H")
-                .setNombre("Pedrito")
-                .setApellidos("Sanchez H")
-                .setFechaNacimiento("2000-10-31")
-                .setResistencia(1)
-                .setVelocidad(2)
-                .setRecuperacion(3);
+        jugador.dni("11111111H")
+                .nombre("Pedrito")
+                .apellidos("Sanchez H")
+                .fechaNacimiento("2000-10-31")
+                .resistencia(1)
+                .velocidad(2)
+                .recuperacion(3);
         this.jugadorUsesCases.add(jugador);
         List<Jugador> list = this.jugadorUsesCases.list();
         assertEquals(1, list.size());

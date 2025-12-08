@@ -3,9 +3,7 @@ package com.Actividad.Gimnasio.jugadores.infrastructure.rest;
 import com.Actividad.Gimnasio.jugadores.aplication.JugadorUsesCases;
 import com.Actividad.Gimnasio.jugadores.domain.Jugador;
 import com.Actividad.Gimnasio.jugadores.infrastructure.db.JugadorRepositorySQL;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,9 +21,27 @@ public class JugadorRestController {
         return this.jugadorUsesCases.list();
     }
 
+    @GetMapping("/api/jugadores/{id}")
+    public Jugador get(@PathVariable int id){
+        return this.jugadorUsesCases.getJugador(id);
+    }
+
     @PostMapping("/api/jugadores")
-    public List<Jugador> save(Jugador jugador){
+    public List<Jugador> save(@RequestBody Jugador jugador){
         this.jugadorUsesCases.add(jugador);
+        return this.jugadorUsesCases.list();
+    }
+
+    @PutMapping("/api/jugadores/{id}")
+    public Jugador update(@PathVariable int id,
+                          @RequestBody Jugador jugador){
+        this.jugadorUsesCases.update(id, jugador);
+        return this.jugadorUsesCases.getJugador(id);
+    }
+
+    @DeleteMapping("/api/jugadores/{id}")
+    public List<Jugador> delete(@PathVariable int id) {
+        this.jugadorUsesCases.remove(id);
         return this.jugadorUsesCases.list();
     }
 }

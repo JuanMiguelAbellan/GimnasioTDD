@@ -1,8 +1,8 @@
 package com.Actividad.Gimnasio.jugadores.domain;
 
 public class Jugador {
-    private String dni;
-    private String nombre;
+    public String dni;
+    public String nombre;
     private String apellidos;
     private String fechaNacimiento;
     private int resistencia;
@@ -10,6 +10,16 @@ public class Jugador {
     private int recuperacion;
 
     public Jugador() {
+    }
+
+    public Jugador(String dni, String nombre, String apellidos, int resistencia, String fechaNacimiento, int velocidad, int recuperacion) {
+        this.dni = dni;
+        this.nombre = nombre;
+        this.apellidos = apellidos;
+        this.resistencia = resistencia;
+        this.fechaNacimiento = fechaNacimiento;
+        this.velocidad = velocidad;
+        this.recuperacion = recuperacion;
     }
 
     public int validarCondicion(int valor){
@@ -20,37 +30,37 @@ public class Jugador {
         }
     }
 
-    public Jugador setResistencia(int resistencia){
+    public Jugador resistencia(int resistencia){
         this.resistencia=validarCondicion(resistencia);
         return this;
     }
 
-    public Jugador setVelocidad(int velocidad) {
+    public Jugador velocidad(int velocidad) {
         this.velocidad = validarCondicion(resistencia);
         return this;
     }
 
-    public Jugador setRecuperacion(int recuperacion) {
+    public Jugador recuperacion(int recuperacion) {
         this.recuperacion =validarCondicion(recuperacion);
         return this;
     }
 
-    public Jugador setDni(String dni) {
+    public Jugador dni(String dni) {
         this.dni = dni;
         return this;
     }
 
-    public Jugador setNombre(String nombre) {
+    public Jugador nombre(String nombre) {
         this.nombre = nombre;
         return this;
     }
 
-    public Jugador setApellidos(String apellidos) {
+    public Jugador apellidos(String apellidos) {
         this.apellidos = apellidos;
         return this;
     }
 
-    public Jugador setFechaNacimiento(String fechaNacimiento) {
+    public Jugador fechaNacimiento(String fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
         return this;
     }

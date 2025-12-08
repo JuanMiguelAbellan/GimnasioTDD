@@ -16,7 +16,6 @@ public class JugadorUsesCases {
     public List<Jugador> list(){
         return this.jugadorRepository.list();
     }
-
     public Jugador getJugador(int id){
         return this.jugadorRepository.getJugador(id);
     }
@@ -29,4 +28,7 @@ public class JugadorUsesCases {
     public void reset(){
         this.jugadorRepository.reset();
     };
+    public void remove(int id){
+        this.jugadorRepository.remove(id);
+    }
 }
