@@ -1,8 +1,8 @@
-package com.Actividad.Gimnasio.entrenamientos.infrastructure.db;
+package com.Actividad.Gimnasio.ejercicios.infrastructure.db;
 
 import com.Actividad.Gimnasio.context.MySQLDBConnector;
-import com.Actividad.Gimnasio.entrenamientos.domain.Ejercicio;
-import com.Actividad.Gimnasio.entrenamientos.domain.EjercicioRepository;
+import com.Actividad.Gimnasio.ejercicios.domain.Ejercicio;
+import com.Actividad.Gimnasio.ejercicios.domain.EjercicioRepositoryMongo;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EjercicioRepositorySQL implements EjercicioRepository {
+public class EjercicioRepositorySQL implements com.Actividad.Gimnasio.ejercicios.domain.EjercicioRepositorySQL {
     @Override
     public List<Ejercicio> list() {
         List<Ejercicio> ejercicios = new ArrayList<>();
@@ -21,7 +21,7 @@ public class EjercicioRepositorySQL implements EjercicioRepository {
             ResultSet rs = statement.executeQuery();
             while (rs.next()){
                 Ejercicio ejercicio= new Ejercicio();
-                ejercicio.id(rs.getInt("id"))
+                ejercicio.idSql(rs.getInt("id"))
                         .titulo(rs.getString("titulo"))
                         .descripcion(rs.getString("descripcion"))
                         .duracion(rs.getDouble("duracion"));
@@ -34,13 +34,23 @@ public class EjercicioRepositorySQL implements EjercicioRepository {
     }
 
     @Override
-    public Ejercicio getEntrenamiento(int id) {
+    public Ejercicio getEjercicio(int id) {
         return null;
     }
 
     @Override
     public void add(Ejercicio ejercicio) {
+        String query = "insert into ejercicio(titulo, descripcion, duracion) values(?, ?, ?)";
 
+        try {
+            PreparedStatement statement = MySQLDBConnector.getInstance().prepareStatement(query);
+            statement.setString(1, ejercicio.getTitulo());
+            statement.setString(2, ejercicio.getDescripcion());
+            statement.setObject(3, ejercicio.getDuracion());
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override

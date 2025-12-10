@@ -23,7 +23,7 @@ public class JugadorRepositorySQL implements JugadorRepository {
                 Jugador jugador = new Jugador();
                 jugador.dni(rs.getString("dni"))
                         .nombre(rs.getString("nombre"))
-                        .apellidos(rs.getString("apelldios"))
+                        .apellidos(rs.getString("apellidos"))
                         .fechaNacimiento(rs.getString("fecha_nacimiento"))
                         .resistencia(rs.getInt("resistencia"))
                         .velocidad(rs.getInt("velocidad"))
@@ -48,7 +48,7 @@ public class JugadorRepositorySQL implements JugadorRepository {
             while (rs.next()){
                 jugador.dni(rs.getString("dni"))
                         .nombre(rs.getString("nombre"))
-                        .apellidos(rs.getString("apelldios"))
+                        .apellidos(rs.getString("apellidos"))
                         .fechaNacimiento(rs.getString("fecha_nacimiento"))
                         .resistencia(rs.getInt("resistencia"))
                         .velocidad(rs.getInt("velocidad"))
@@ -62,7 +62,7 @@ public class JugadorRepositorySQL implements JugadorRepository {
 
     @Override
     public void add(Jugador jugador) {
-        String query = "insert into jugador(dni, nombre, apelldios, fecha_nacimiento, resistencia, velocidad, recuperacion) values(?, ?, ?, ?, ?, ?, ?)";
+        String query = "insert into jugador(dni, nombre, apellidos, fecha_nacimiento, resistencia, velocidad, recuperacion) values(?, ?, ?, ?, ?, ?, ?)";
 
         try {
             PreparedStatement statement = MySQLDBConnector.getInstance().prepareStatement(query);
@@ -93,7 +93,7 @@ public class JugadorRepositorySQL implements JugadorRepository {
             params.add(jugador.getNombre());
         }
         if (jugador.getApellidos() !=null && !jugador.getApellidos().isEmpty()){
-            query.append(", apelldios = ?");
+            query.append(", apellidos = ?");
             params.add(jugador.getApellidos());
         }
         if (jugador.getFechaNacimiento() !=null && !jugador.getFechaNacimiento().isEmpty()){

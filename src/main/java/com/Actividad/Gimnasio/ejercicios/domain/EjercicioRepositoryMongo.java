@@ -1,11 +1,11 @@
-package com.Actividad.Gimnasio.entrenamientos.domain;
+package com.Actividad.Gimnasio.ejercicios.domain;
 
 import java.util.List;
 
-public interface EjercicioRepository {
+public interface EjercicioRepositoryMongo {
 
     public List<Ejercicio> list();
-    public Ejercicio getEntrenamiento(int id);
+    public Ejercicio getEjercicio(int id);
     public void add(Ejercicio ejercicio);
     public void update(int id, Ejercicio ejercicio);
     public void reset();
