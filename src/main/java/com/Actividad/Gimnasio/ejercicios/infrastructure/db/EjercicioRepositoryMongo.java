@@ -9,6 +9,7 @@ import com.mongodb.client.FindIterable;
 import com.mongodb.client.MongoCollection;
 import org.bson.Document;
 
+import javax.print.Doc;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,31 +23,27 @@ public class EjercicioRepositoryMongo implements com.Actividad.Gimnasio.ejercici
         for (Document document: iterable){
             Ejercicio ejercicio = new Ejercicio();
             ejercicio.idMongo(document.getObjectId("_id").toString());
+            ejercicio.idSql(document.getInteger("idSQL"));
 
-            List<Document> etiquetasDoc = document.getList("etiquetas", Document.class);
-            List<String> etiquetas = new ArrayList<>();
+            List<String> etiquetasDoc = document.getList("etiquetas", String.class);
             if (etiquetasDoc != null) {
-                for(Document etiquetaDoc : etiquetasDoc){
-                    etiquetas.add(etiquetaDoc.toString());
-                }
-                ejercicio.etiquetas(etiquetas);
+                ejercicio.etiquetas(etiquetasDoc);
             }
 
-            List<Document> durezasDoc = document.getList("dureza", Document.class);
-            List<Dureza> durezas = new ArrayList<>();
-            if(durezasDoc != null){
-                for(Document durezaDoc : durezasDoc){
-                    Dureza dureza = new Dureza(durezaDoc.getInteger("resistencia"), durezaDoc.getInteger("velocidad"), durezaDoc.getInteger("recuperacion"));
-                    durezas.add(dureza);
-                }
-                ejercicio.dureza(durezas);
-            }
+            Document durezasDoc = (Document) document.get("dureza", Document.class);
+            Dureza dureza = new Dureza();
+            dureza.setVelocidad(durezasDoc.getInteger("velocidad"));
+            dureza.setResistencia(durezasDoc.getInteger("resistencia"));
+            dureza.setRecuperacion(durezasDoc.getInteger("recuperacion"));
+
+            ejercicio.dureza(dureza);
 
             List<Document> materialesDoc = document.getList("materiales", Document.class);
             List<Material> materiales = new ArrayList<>();
             if(materialesDoc != null){
                 for(Document materialDoc : materialesDoc){
-                    Material material = new Material(materialDoc.getString("tipo"), materialDoc.getInteger("cantidad"));
+                    Material material = new Material();
+                    material.setTipo(materialDoc.getString("tipo")).setCantidad((Integer) materialDoc.getInteger("cantidad"));
                     materiales.add(material);
                 }
                 ejercicio.materiales(materiales);
@@ -75,7 +72,30 @@ public class EjercicioRepositoryMongo implements com.Actividad.Gimnasio.ejercici
     @Override
     public void add(Ejercicio ejercicio) {
         Document document = new Document();
+        document.append("id_sql", ejercicio.getIdSQL());
         document.append("titulo", ejercicio.getTitulo());
+        document.append("etiquetas", ejercicio.getEtiquetas());
+        Document dureza = new Document();
+        dureza.append("resistencia", ejercicio.getDureza().getResistencia());
+        dureza.append("velocidad", ejercicio.getDureza().getVelocidad());
+        dureza.append("recuperacion", ejercicio.getDureza().getRecuperacion());
+        document.append("dureza", dureza);
+        List<Document> listaMateriales = new ArrayList<>();
+        for(Material material : ejercicio.getMateriales()){
+            Document materialDoc = new Document();
+            materialDoc.append("tipo", material.getTipo());
+            materialDoc.append("cantidad", material.getCantidad());
+            listaMateriales.add(materialDoc);
+        }
+        document.append("materiales", listaMateriales);
+        List<Document> listMultimedia = new ArrayList<>();
+        for(Multimedia multimedia : ejercicio.getMultimedia()){
+            Document multimediaDoc = new Document();
+            multimediaDoc.append("tipo", multimedia.getTipo());
+            multimediaDoc.append("url", multimedia.getUrl());
+            listaMateriales.add(multimediaDoc);
+        }
+        document.append("multimedia", listMultimedia);
         MongoDBConnector.getDatabase().getCollection("ejercicios").insertOne(document);
     }
 

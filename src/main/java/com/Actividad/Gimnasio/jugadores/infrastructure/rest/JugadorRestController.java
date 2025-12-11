@@ -2,7 +2,7 @@ package com.Actividad.Gimnasio.jugadores.infrastructure.rest;
 
 import com.Actividad.Gimnasio.jugadores.aplication.JugadorUsesCases;
 import com.Actividad.Gimnasio.jugadores.domain.Jugador;
-import com.Actividad.Gimnasio.jugadores.infrastructure.db.JugadorRepositorySQL;
+import com.Actividad.Gimnasio.jugadores.infrastructure.db.JugadorRepositoryPG;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,7 +13,7 @@ public class JugadorRestController {
     private JugadorUsesCases jugadorUsesCases;
 
     public JugadorRestController(){
-        this.jugadorUsesCases= new JugadorUsesCases(new JugadorRepositorySQL());
+        this.jugadorUsesCases= new JugadorUsesCases(new JugadorRepositoryPG());
     }
 
     @GetMapping("/api/jugadores")

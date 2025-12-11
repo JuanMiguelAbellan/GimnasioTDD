@@ -2,7 +2,7 @@ package com.Actividad.Gimnasio;
 
 import com.Actividad.Gimnasio.jugadores.aplication.JugadorUsesCases;
 import com.Actividad.Gimnasio.jugadores.domain.Jugador;
-import com.Actividad.Gimnasio.jugadores.infrastructure.db.JugadorRepositorySQL;
+import com.Actividad.Gimnasio.jugadores.infrastructure.db.JugadorRepositoryPG;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -16,7 +16,7 @@ public class JugadorUsesCasesTest {
     private JugadorUsesCases jugadorUsesCases;
 
     public JugadorUsesCasesTest(){
-        this.jugadorUsesCases = new JugadorUsesCases(new JugadorRepositorySQL());
+        this.jugadorUsesCases = new JugadorUsesCases(new JugadorRepositoryPG());
     }
 
     @Test

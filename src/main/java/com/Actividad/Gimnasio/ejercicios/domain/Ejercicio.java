@@ -8,20 +8,30 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Ejercicio {
-    private int idSQL;
+    private Integer id_SQL;
     private String idMongo;
     private String titulo;
     private String descripcion;
     private List<String> etiquetas = new ArrayList<>();
-    private double duracion;
-    private List<Dureza> dureza = new ArrayList<>();
+    private Double duracion;
+    private Dureza dureza;
     private List<Material> materiales = new ArrayList<>();
     private List<Multimedia> multimedia = new ArrayList<>();
 
+    public Ejercicio(String titulo, String descripcion, List<String> etiquetas, double duracion, Dureza dureza, List<Material> materiales, List<Multimedia> multimedia) {
+        this.titulo = titulo;
+        this.descripcion = descripcion;
+        this.etiquetas = etiquetas;
+        this.duracion = duracion;
+        this.dureza = dureza;
+        this.materiales = materiales;
+        this.multimedia = multimedia;
+    }
+
     public Ejercicio(){}
 
-    public int getIdSQL() {
-        return idSQL;
+    public Integer getIdSQL() {
+        return id_SQL;
     }
 
     public String getIdMongo() {
@@ -33,8 +43,8 @@ public class Ejercicio {
         return this;
     }
 
-    public Ejercicio idSql(int id) {
-        this.idSQL = id;
+    public Ejercicio idSql(Integer id) {
+        this.id_SQL = id;
         return this;
     }
 
@@ -65,20 +75,20 @@ public class Ejercicio {
         return this;
     }
 
-    public double getDuracion() {
+    public Double getDuracion() {
         return duracion;
     }
 
-    public Ejercicio duracion(double duracion) {
+    public Ejercicio duracion(Double duracion) {
         this.duracion = duracion;
         return this;
     }
 
-    public List<Dureza> getDureza() {
+    public Dureza getDureza() {
         return dureza;
     }
 
-    public Ejercicio dureza(List<Dureza> dureza) {
+    public Ejercicio dureza(Dureza dureza) {
         this.dureza = dureza;
         return this;
     }

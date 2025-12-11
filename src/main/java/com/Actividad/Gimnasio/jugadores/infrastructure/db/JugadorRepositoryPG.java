@@ -1,23 +1,24 @@
 package com.Actividad.Gimnasio.jugadores.infrastructure.db;
 
-import com.Actividad.Gimnasio.context.MySQLDBConnector;
+import com.Actividad.Gimnasio.context.PGDBConnector;
 import com.Actividad.Gimnasio.jugadores.domain.Jugador;
 import com.Actividad.Gimnasio.jugadores.domain.JugadorRepository;
 
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class JugadorRepositorySQL implements JugadorRepository {
+public class JugadorRepositoryPG implements JugadorRepository {
     @Override
     public List<Jugador> list() {
         String query = "select * from jugador";
         List<Jugador> jugadores = new ArrayList<>();
 
         try {
-            PreparedStatement statement = MySQLDBConnector.getInstance().prepareStatement(query);
+            PreparedStatement statement = PGDBConnector.getInstance().prepareStatement(query);
             ResultSet rs = statement.executeQuery();
             while (rs.next()){
                 Jugador jugador = new Jugador();
@@ -42,7 +43,7 @@ public class JugadorRepositorySQL implements JugadorRepository {
         String query = "select * from jugador where id = ?";
 
         try {
-            PreparedStatement statement = MySQLDBConnector.getInstance().prepareStatement(query);
+            PreparedStatement statement = PGDBConnector.getInstance().prepareStatement(query);
             statement.setInt(1, id);
             ResultSet rs = statement.executeQuery();
             while (rs.next()){
@@ -65,11 +66,11 @@ public class JugadorRepositorySQL implements JugadorRepository {
         String query = "insert into jugador(dni, nombre, apellidos, fecha_nacimiento, resistencia, velocidad, recuperacion) values(?, ?, ?, ?, ?, ?, ?)";
 
         try {
-            PreparedStatement statement = MySQLDBConnector.getInstance().prepareStatement(query);
+            PreparedStatement statement = PGDBConnector.getInstance().prepareStatement(query);
             statement.setString(1, jugador.getDni());
             statement.setString(2, jugador.getNombre());
             statement.setString(3, jugador.getApellidos());
-            statement.setString(4, jugador.getFechaNacimiento());
+            statement.setDate(4, (Date) Date.valueOf(jugador.getFechaNacimiento()));
             statement.setInt(5, jugador.getResistencia());
             statement.setInt(6, jugador.getVelocidad());
             statement.setInt(7, jugador.getRecuperacion());
@@ -115,7 +116,7 @@ public class JugadorRepositorySQL implements JugadorRepository {
 
         try{
             query.append(" where id = " + id);
-            PreparedStatement statement = MySQLDBConnector.getInstance().prepareStatement(query.toString());
+            PreparedStatement statement = PGDBConnector.getInstance().prepareStatement(query.toString());
             for(int i =0; i < params.size();i++){
                 statement.setObject(i+1, params.get(i));
             }
@@ -130,7 +131,7 @@ public class JugadorRepositorySQL implements JugadorRepository {
         String query = "delete from jugador";
 
         try {
-            PreparedStatement statement = MySQLDBConnector.getInstance().prepareStatement(query);
+            PreparedStatement statement = PGDBConnector.getInstance().prepareStatement(query);
             statement.executeUpdate();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -143,7 +144,7 @@ public class JugadorRepositorySQL implements JugadorRepository {
         String query = "delete from jugador where id = ?";
 
         try {
-            PreparedStatement statement = MySQLDBConnector.getInstance().prepareStatement(query);
+            PreparedStatement statement = PGDBConnector.getInstance().prepareStatement(query);
             statement.setInt(1, id);
             statement.executeUpdate();
         } catch (SQLException e) {

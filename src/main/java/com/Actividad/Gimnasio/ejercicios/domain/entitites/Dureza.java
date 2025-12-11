@@ -1,25 +1,37 @@
 package com.Actividad.Gimnasio.ejercicios.domain.entitites;
 
 public class Dureza {
-    private int  resistencia;
-    private int velocidad;
-    private int recuperación;
+    private Integer  resistencia;
+    private Integer velocidad;
+    private Integer recuperacion;
 
-    public Dureza(int resistencia, int velocidad, int recuperación) {
+    public Dureza setResistencia(Integer resistencia) {
         this.resistencia = resistencia;
-        this.velocidad = velocidad;
-        this.recuperación = recuperación;
+        return this;
     }
 
-    public int getResistencia() {
+    public Dureza setVelocidad(Integer velocidad) {
+        this.velocidad = velocidad;
+        return this;
+    }
+
+    public Dureza setRecuperacion(Integer recuperación) {
+        this.recuperacion = recuperación;
+        return this;
+    }
+
+    public Dureza() {
+    }
+
+    public Integer getResistencia() {
         return resistencia;
     }
 
-    public int getVelocidad() {
+    public Integer getVelocidad() {
         return velocidad;
     }
 
-    public int getRecuperación() {
-        return recuperación;
+    public Integer getRecuperacion() {
+        return recuperacion;
     }
 }

@@ -2,7 +2,7 @@ package com.Actividad.Gimnasio.ejercicios.aplication;
 
 import com.Actividad.Gimnasio.ejercicios.domain.Ejercicio;
 import com.Actividad.Gimnasio.ejercicios.infrastructure.db.EjercicioRepositoryMongo;
-import com.Actividad.Gimnasio.ejercicios.infrastructure.db.EjercicioRepositorySQL;
+import com.Actividad.Gimnasio.ejercicios.infrastructure.db.EjercicioRepositoryPG;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,9 +10,9 @@ import java.util.List;
 public class EjercicioUsesCases {
 
     private EjercicioRepositoryMongo entrenamientoRepositoryMongo;
-    private EjercicioRepositorySQL entrenamientoRepositorySQL;
+    private EjercicioRepositoryPG entrenamientoRepositorySQL;
 
-    public EjercicioUsesCases(EjercicioRepositorySQL entrenamientoRepositorySQL, EjercicioRepositoryMongo entrenamientoRepositoryMongo){
+    public EjercicioUsesCases(EjercicioRepositoryPG entrenamientoRepositorySQL, EjercicioRepositoryMongo entrenamientoRepositoryMongo){
         this.entrenamientoRepositoryMongo=entrenamientoRepositoryMongo;
         this.entrenamientoRepositorySQL=entrenamientoRepositorySQL;
     }
@@ -30,7 +30,7 @@ public class EjercicioUsesCases {
     public List<Ejercicio> unificar(List<Ejercicio> ejerciciosSQL, List<Ejercicio> ejerciciosMongo){
         List<Ejercicio> listaUnificada = new ArrayList<>();
         int maximo = 0;
-        if(ejerciciosSQL.size() > ejerciciosMongo.size()){
+        if(ejerciciosSQL.size() < ejerciciosMongo.size()){
             maximo = ejerciciosSQL.size();
         }else {
             maximo = ejerciciosMongo.size();

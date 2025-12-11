@@ -1,8 +1,7 @@
 package com.Actividad.Gimnasio.ejercicios.infrastructure.db;
 
-import com.Actividad.Gimnasio.context.MySQLDBConnector;
+import com.Actividad.Gimnasio.context.PGDBConnector;
 import com.Actividad.Gimnasio.ejercicios.domain.Ejercicio;
-import com.Actividad.Gimnasio.ejercicios.domain.EjercicioRepositoryMongo;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,14 +9,14 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class EjercicioRepositorySQL implements com.Actividad.Gimnasio.ejercicios.domain.EjercicioRepositorySQL {
+public class EjercicioRepositoryPG implements com.Actividad.Gimnasio.ejercicios.domain.EjercicioRepositoryPG {
     @Override
     public List<Ejercicio> list() {
         List<Ejercicio> ejercicios = new ArrayList<>();
         String query = "select * from ejercicio";
 
         try {
-            PreparedStatement statement = MySQLDBConnector.getInstance().prepareStatement(query);
+            PreparedStatement statement = PGDBConnector.getInstance().prepareStatement(query);
             ResultSet rs = statement.executeQuery();
             while (rs.next()){
                 Ejercicio ejercicio= new Ejercicio();
@@ -43,7 +42,7 @@ public class EjercicioRepositorySQL implements com.Actividad.Gimnasio.ejercicios
         String query = "insert into ejercicio(titulo, descripcion, duracion) values(?, ?, ?)";
 
         try {
-            PreparedStatement statement = MySQLDBConnector.getInstance().prepareStatement(query);
+            PreparedStatement statement = PGDBConnector.getInstance().prepareStatement(query);
             statement.setString(1, ejercicio.getTitulo());
             statement.setString(2, ejercicio.getDescripcion());
             statement.setObject(3, ejercicio.getDuracion());

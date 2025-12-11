@@ -2,7 +2,7 @@ package com.Actividad.Gimnasio.ejercicios.domain;
 
 import java.util.List;
 
-public interface EjercicioRepositorySQL {
+public interface EjercicioRepositoryPG {
     public List<Ejercicio> list();
     public Ejercicio getEjercicio(int id);
     public void add(Ejercicio ejercicio);
