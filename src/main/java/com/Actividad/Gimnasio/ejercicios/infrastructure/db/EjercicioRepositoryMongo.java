@@ -80,6 +80,7 @@ public class EjercicioRepositoryMongo implements com.Actividad.Gimnasio.ejercici
         dureza.append("velocidad", ejercicio.getDureza().getVelocidad());
         dureza.append("recuperacion", ejercicio.getDureza().getRecuperacion());
         document.append("dureza", dureza);
+
         List<Document> listaMateriales = new ArrayList<>();
         for(Material material : ejercicio.getMateriales()){
             Document materialDoc = new Document();
@@ -88,14 +89,16 @@ public class EjercicioRepositoryMongo implements com.Actividad.Gimnasio.ejercici
             listaMateriales.add(materialDoc);
         }
         document.append("materiales", listaMateriales);
+
         List<Document> listMultimedia = new ArrayList<>();
         for(Multimedia multimedia : ejercicio.getMultimedia()){
             Document multimediaDoc = new Document();
             multimediaDoc.append("tipo", multimedia.getTipo());
             multimediaDoc.append("url", multimedia.getUrl());
-            listaMateriales.add(multimediaDoc);
+            listMultimedia.add(multimediaDoc);
         }
         document.append("multimedia", listMultimedia);
+
         MongoDBConnector.getDatabase().getCollection("ejercicios").insertOne(document);
     }
 
