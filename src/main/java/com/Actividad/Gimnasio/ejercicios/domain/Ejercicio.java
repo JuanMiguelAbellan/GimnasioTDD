@@ -9,7 +9,7 @@ import java.util.List;
 
 public class Ejercicio {
     private Integer id_SQL;
-    private String idMongo;
+    private String id_Mongo;
     private String titulo;
     private String descripcion;
     private List<String> etiquetas = new ArrayList<>();
@@ -35,11 +35,11 @@ public class Ejercicio {
     }
 
     public String getIdMongo() {
-        return idMongo;
+        return id_Mongo;
     }
 
-    public Ejercicio idMongo(String idMongo) {
-        this.idMongo = idMongo;
+    public Ejercicio id_Mongo(String idMongo) {
+        this.id_Mongo = idMongo;
         return this;
     }
 

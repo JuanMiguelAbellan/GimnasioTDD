@@ -22,8 +22,9 @@ public class EjercicioRepositoryMongo implements com.Actividad.Gimnasio.ejercici
         FindIterable<Document> iterable = collection.find();
         for (Document document: iterable){
             Ejercicio ejercicio = new Ejercicio();
-            ejercicio.idMongo(document.getObjectId("_id").toString());
-            ejercicio.idSql(document.getInteger("idSQL"));
+            //Document idMongoDoc= document.get("_id", Document.class);
+            ejercicio.id_Mongo(document.getObjectId("_id").toString());
+            ejercicio.idSql(document.getInteger("id_SQL"));
 
             List<String> etiquetasDoc = document.getList("etiquetas", String.class);
             if (etiquetasDoc != null) {

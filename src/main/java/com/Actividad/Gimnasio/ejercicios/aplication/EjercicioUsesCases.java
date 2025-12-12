@@ -9,22 +9,22 @@ import java.util.List;
 
 public class EjercicioUsesCases {
 
-    private EjercicioRepositoryMongo entrenamientoRepositoryMongo;
-    private EjercicioRepositoryPG entrenamientoRepositorySQL;
+    private EjercicioRepositoryMongo ejercicioRepositoryMongo;
+    private EjercicioRepositoryPG ejercicioRepositoryPG;
 
-    public EjercicioUsesCases(EjercicioRepositoryPG entrenamientoRepositorySQL, EjercicioRepositoryMongo entrenamientoRepositoryMongo){
-        this.entrenamientoRepositoryMongo=entrenamientoRepositoryMongo;
-        this.entrenamientoRepositorySQL=entrenamientoRepositorySQL;
+    public EjercicioUsesCases(EjercicioRepositoryPG ejercicioRepositoryPG, EjercicioRepositoryMongo ejercicioRepositoryMongo){
+        this.ejercicioRepositoryPG=ejercicioRepositoryPG;
+        this.ejercicioRepositoryMongo=ejercicioRepositoryMongo;
     }
 
     public List<Ejercicio> add(Ejercicio ejercicio){
-        this.entrenamientoRepositorySQL.add(ejercicio);
-        this.entrenamientoRepositoryMongo.add(ejercicio);
+        this.ejercicioRepositoryPG.add(ejercicio);
+        this.ejercicioRepositoryMongo.add(ejercicio);
         return list();
     }
 
     public List<Ejercicio> list(){
-        return unificar(this.entrenamientoRepositorySQL.list(), this.entrenamientoRepositoryMongo.list());
+        return unificar(this.ejercicioRepositoryPG.list(), this.ejercicioRepositoryMongo.list());
     }
 
     public List<Ejercicio> unificar(List<Ejercicio> ejerciciosSQL, List<Ejercicio> ejerciciosMongo){
@@ -41,6 +41,7 @@ public class EjercicioUsesCases {
             Ejercicio ejercicioSQL = ejerciciosSQL.get(i);
             Ejercicio ejercicioMongo = ejerciciosMongo.get(i);
             ejercicio.idSql(ejercicioSQL.getIdSQL())
+                    .id_Mongo(ejercicioMongo.getIdMongo())
                     .titulo(ejercicioSQL.getTitulo())
                     .descripcion(ejercicioSQL.getDescripcion())
                     .duracion(ejercicioSQL.getDuracion())
